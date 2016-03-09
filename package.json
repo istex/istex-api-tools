@@ -1,0 +1,25 @@
+{
+  "name": "istex-api-tools",
+  "version": "1.0.0",
+  "description": "Dépôt regroupant des scripts permettant de réaliser différents traitements plus ou moins complexes en sortie de l'API (ex: reconstituer un état de collection en CSV)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/istex/istex-api-tools.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/istex/istex-api-tools/issues"
+  },
+  "homepage": "https://github.com/istex/istex-api-tools#readme",
+  "dependencies": {
+    "csv-string": "^2.3.0",
+    "jbj": "^4.1.1",
+    "oboe": "^2.1.2",
+    "request": "^2.69.0"
+  }
+}
