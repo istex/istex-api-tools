@@ -3,6 +3,7 @@
 var request = require('request');
 var oboe    = require('oboe');
 var CSV     = require('csv-string');
+var fs      = require('fs');
 
 var csvLine = null;
 var csvData = [ ['corpus', 'title', 'issn', 'eissn' ] ];
