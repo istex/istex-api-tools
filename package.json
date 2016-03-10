@@ -10,7 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/istex/istex-api-tools.git"
   },
-  "author": "",
+  "contributors": [
+    "Stéphane Gully"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/istex/istex-api-tools/issues"
