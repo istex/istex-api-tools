@@ -10,7 +10,7 @@ const file = require('./temp/etat-de-collection-istex-es.json')
 let dataToCsv = (target) => {
   let output = [],
       csv = '',
-      delimeter = ',',
+      delimeter = ';',
       newValue = ''
 
   let traverseAndFlat = (obj, pre) => {
@@ -35,4 +35,4 @@ let dataToCsv = (target) => {
   return csv
 }
 
-fs.writeFile('./temp/etat-de-collection-istex.csv', dataToCsv(file), 'utf8');
+fs.writeFile('./temp/etat-de-collection-istex-es.csv', dataToCsv(file), 'utf8');
