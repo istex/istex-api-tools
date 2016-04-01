@@ -1,0 +1,35 @@
+curl -XPOST 'http://mon-serveur-elasticsearch.fr/_search?pretty' -d '{
+  "aggs": {
+    "corpusName": {
+      "terms": {
+        "field": "corpusName.raw",
+        "size": 0
+      },
+      "aggs": {
+        "title": {
+          "terms": {
+            "field": "host.title.raw",
+            "size": 0
+          },
+          "aggs": {
+            "issn": {
+              "terms": {
+                "field": "host.issn.raw",
+                "size": 0
+              },
+              "aggs": {
+                "eissn": {
+                  "terms": {
+                    "field": "host.eissn.raw",
+                    "size": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "size": 0
+}' > etat-collection-corpus-title-issn-doi-eissn.json
