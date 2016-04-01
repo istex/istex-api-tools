@@ -3,14 +3,13 @@
 'use strict'
 
 const _ = require('lodash'),
-      fs = require('fs')
-
-const file = require('./temp/etat-de-collection-istex-es.json')
+      fs = require('fs'),
+      input = process.argv[2] || false
 
 let dataToCsv = (target) => {
   let output = [],
       csv = '',
-      delimeter = ';',
+      delimeter = '$',
       newValue = ''
 
   let traverseAndFlat = (obj, pre) => {
@@ -35,4 +34,14 @@ let dataToCsv = (target) => {
   return csv
 }
 
-fs.writeFile('./temp/etat-de-collection-istex-es.csv', dataToCsv(file), 'utf8');
+if (input) {
+  fs.stat(input, (error, stats) => {
+    if (error) {
+      console.log(error)
+      return
+    } else {
+      const file = JSON.parse(fs.readFileSync(input, "utf-8"))
+      process.stdout.write(dataToCsv(file))
+    }
+  })
+}
