@@ -18,6 +18,12 @@ curl --noproxy '*' -XPOST 'http://mon-serveur-elasticsearch.fr/_search?pretty' -
                 "size": 0
               },
               "aggs": {
+                "isbn" : {
+                  "terms" : {
+                    "field" : "host.isbn.raw",
+                    "size" : 0
+                  }
+                },
                 "eissn": {
                   "terms": {
                     "field": "host.eissn.raw",
@@ -32,4 +38,4 @@ curl --noproxy '*' -XPOST 'http://mon-serveur-elasticsearch.fr/_search?pretty' -
     }
   },
   "size": 0
-}' > etat-collection-corpus-title-issn-doi-eissn.json
+}' > etat-collection-corpus-title-issn-isbn-eissn.json
