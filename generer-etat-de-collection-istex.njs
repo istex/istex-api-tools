@@ -9,14 +9,14 @@ const _ = require('lodash'),
 let dataToCsv = (target) => {
   let output = [],
       csv = '',
-      delimeter = '$',
+      delimeter = ',',
       newValue = ''
 
   let traverseAndFlat = (obj, pre) => {
     _.forEach(obj, (value, index, array) => {
       // Extraction des données
       if (_.has(value, 'key')) {
-        newValue = pre ? pre + delimeter + value['key'] : value['key']
+        newValue = pre ? pre + delimeter + "\"" + value['key'] + "\""  : "\"" + value['key'] + "\""
         if (output.indexOf(pre) !== -1) {
           output.splice(output.indexOf(pre), 1)
         }
