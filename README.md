@@ -2,6 +2,13 @@
 
 Dépôt regroupant des scripts permettant de réaliser différents traitements plus ou moins complexes en sortie de l'API (ex: reconstituer un état de collection en CSV)
 
+## Normalisation
+
+Il est necessaire de "normaliser" le ficheir de sortie ElasticSearch.
+```
+node normalizeJson.js sortieElastic.json temp/normalized.json 
+```
+
 ## Script état de collection
 
 Le script prend en entrée un fichier JSON qui correspond à la sortie d'une requête sur un serveur elasticsearch (exemple : temp/etat-collection-corpus-title-issn-eissn.json)
@@ -13,5 +20,5 @@ Le script prend en entrée un fichier JSON qui correspond à la sortie d'une req
 
 Voici un exemple d'utilisation du script :
 ```
-./generer-etat-de-collection-istex.njs temp/etat-collection-corpus-title-issn-doi-eissn.json > output.csv
+./generer-etat-de-collection-istex.njs temp/normalized.json > output.csv
 ```
