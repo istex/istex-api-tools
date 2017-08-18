@@ -1,10 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * Script calculant le taux d'OpenAccess dans ISTEX
- * en se basant sur l'API de oaDOI
- *   cf https://oadoi.org/api
- *   cf http://carnetist.hypotheses.org/835
+ * Script calculant le taux de recouvrement ISTEX et HAL
+ * en se basant sur l'API de HAL
  */
 
 var request = require('request');
@@ -19,13 +17,9 @@ module.exports = function(options, cb) {
 
 
   var oaCounter = {
-    perCentISTEXOA: 0,
+    perCentIstexHal: 0,
     nbDocAnalyzed: 0,
-    found_green: 0,
-    found_hybrid: 0,
-    is_free_to_read: 0,
-    is_boai_license: 0,
-    is_subscription_journal: 0,
+    found_hal: 0,
   }
 
   request('https://api.istex.fr/document/?q=*&output=doi&size=5000&rankBy=random&sid=istex-api-tools', function (error, response, body) {
@@ -36,18 +30,17 @@ module.exports = function(options, cb) {
       
       var doi = hit.doi && hit.doi.length ? hit.doi[0] : '';
       if (doi) {
-        request('https://api.oadoi.org/' + encodeURIComponent(doi) + '?email=api-users@listes.istex.fr', function (err, response, oadoiBody) {
+        request('https://api.archives-ouvertes.fr/search/?q=*:*&wt=json&fq=doiId_s:%22' + encodeURIComponent(doi) + '%22&fl=doiId_s', function (err, response, halBody) {
           if (err) return cb(err);
-          oadoiBody = JSON.parse(oadoiBody);
-          oadoiBody = oadoiBody.results && oadoiBody.results.length ? oadoiBody.results[0] : {};
-          
+          halBody = JSON.parse(halBody);
+          var foundInHal = halBody && halBody.response && halBody.response.numFound && halBody.response.numFound > 0;
+          if (!(halBody && halBody.response)) {
+            console.error(halBody);
+          }
+
           oaCounter.nbDocAnalyzed++;
-          oaCounter.found_green             += oadoiBody.found_green ? 1 : 0;
-          oaCounter.found_hybrid            += oadoiBody.found_hybrid ? 1 : 0;
-          oaCounter.is_free_to_read         += oadoiBody.is_free_to_read ? 1 : 0;
-          oaCounter.is_boai_license         += oadoiBody.is_boai_license ? 1 : 0;
-          oaCounter.is_subscription_journal += oadoiBody.is_subscription_journal ? 1 : 0;
-          oaCounter.perCentISTEXOA = Math.round(oaCounter.found_green / oaCounter.nbDocAnalyzed * 100);
+          oaCounter.found_hal += foundInHal ? 1 : 0;
+          oaCounter.perCentIstexHal = Math.round(oaCounter.found_hal / oaCounter.nbDocAnalyzed * 100);
 
           console.log(JSON.stringify(oaCounter) + ' <- ' + doi);
           cb(null);
