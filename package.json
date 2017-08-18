@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/istex/istex-api-tools#readme",
   "dependencies": {
+    "async": "^2.5.0",
     "csv-string": "^2.3.0",
     "lodash": "^4.6.1",
     "oboe": "^2.1.2",
