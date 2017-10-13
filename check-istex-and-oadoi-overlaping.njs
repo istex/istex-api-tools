@@ -47,7 +47,7 @@ module.exports = function(options, cb) {
           oaCounter.is_free_to_read         += oadoiBody.is_free_to_read ? 1 : 0;
           oaCounter.is_boai_license         += oadoiBody.is_boai_license ? 1 : 0;
           oaCounter.is_subscription_journal += oadoiBody.is_subscription_journal ? 1 : 0;
-          oaCounter.perCentISTEXOA = Math.round(oaCounter.found_green / oaCounter.nbDocAnalyzed * 100);
+          oaCounter.perCentISTEXOA = Math.round((oaCounter.found_green + oaCounter.is_free_to_read)/ oaCounter.nbDocAnalyzed * 100);
 
           console.log(JSON.stringify(oaCounter) + ' <- ' + doi);
           cb(null);
