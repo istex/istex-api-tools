@@ -23,7 +23,7 @@ Voici un exemple d'utilisation du script :
 ./generer-etat-de-collection-istex.njs temp/normalized.json > output.csv
 ```
 
-## Scripts permettant de connaître les recouvrements ISTEX et autres dépôts
+## Scripts permettant de connaître les recouvrements ISTEX avec d'autres dépôts
 
 Le % d'openaccess dans ISTEX (en se basant sur le DOI des articles) :
 https://github.com/istex/istex-api-tools/blob/master/check-istex-and-oadoi-overlaping.njs
