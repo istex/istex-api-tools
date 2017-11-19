@@ -30,3 +30,6 @@ https://github.com/istex/istex-api-tools/blob/master/check-istex-and-oadoi-overl
 
 Le % de HAL dans ISTEX (en se basant sur le DOI des articles) :
 https://github.com/istex/istex-api-tools/blob/master/check-istex-and-hal-overlaping.njs
+
+Le recouvrement des (E)ISSN d'ISTEX et ceux présents dans l'API de Crossref + comptage sur les [catégories ASJC](https://github.com/plreyes/Scopus) :
+https://github.com/istex/istex-api-tools/blob/master/check-istex-and-crossref-issn-db.njs
