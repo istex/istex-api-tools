@@ -83,7 +83,7 @@ module.exports = function(options, cb) {
           return cb(null);
         });
       } else {
-        console.log('Skip this TEI: ' + hit.id);
+        DEBUG && console.log('Skip this TEI: ' + hit.id);
         cb(null);
       }
     }, function (err) {
