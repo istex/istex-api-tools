@@ -6,7 +6,7 @@
  * un bug qui rend les XML invalides. Ex: namespace vide, body inséré brutalement 
  * sans échapements etc ...
  * Exemple d'appel :
- * JWT="....." ./check-istex-tei-xmlwf.njs
+ * CORPUS="wiley" JWT="....." ./check-istex-tei-xmlwf.njs
  */
 
 var request = require('request');
@@ -15,6 +15,7 @@ var child_process = require('child_process');
 
 // JWT token taken from https://api.istex.fr/token/
 var JWT = process.env.JWT || '';
+var CORPUS = process.env.CORPUS || 'wiley';
 
 module.exports = function(options, cb) {
 
@@ -33,7 +34,7 @@ module.exports = function(options, cb) {
     percentWfTei: 100
   }
   
-  var istexApiRequest = 'https://api.istex.fr/document/?q=*&output=corpusName,fulltext&size=5000&rankBy=random&sid=istex-api-tools';
+  var istexApiRequest = 'https://api.istex.fr/document/?q=corpusName:' + CORPUS + '&output=corpusName,fulltext&size=5000&rankBy=random&sid=istex-api-tools';
   console.log('start', istexApiRequest);
   request(istexApiRequest, function (err, response, body) {
     if (err) return console.error(err);
