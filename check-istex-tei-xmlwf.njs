@@ -6,7 +6,7 @@
  * un bug qui rend les XML invalides. Ex: namespace vide, body inséré brutalement 
  * sans échapements etc ...
  * Exemple d'appel :
- * CORPUS="wiley" JWT="....." ./check-istex-tei-xmlwf.njs
+ * CORPUS="wiley" NB_TO_SAMPLE=500 JWT="....." ./check-istex-tei-xmlwf.njs
  */
 
 var request = require('request');
