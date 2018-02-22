@@ -16,6 +16,8 @@ var child_process = require('child_process');
 // JWT token taken from https://api.istex.fr/token/
 var JWT = process.env.JWT || '';
 var CORPUS = process.env.CORPUS || 'wiley';
+var NB_TO_SAMPLE = process.env.NB_TO_SAMPLE || 500;
+var DEBUG = process.env.DEBUG || 0;
 
 module.exports = function(options, cb) {
 
@@ -34,7 +36,7 @@ module.exports = function(options, cb) {
     percentWfTei: 100
   }
   
-  var istexApiRequest = 'https://api.istex.fr/document/?q=corpusName:' + CORPUS + '&output=corpusName,fulltext&size=5000&rankBy=random&sid=istex-api-tools';
+  var istexApiRequest = 'https://api.istex.fr/document/?q=corpusName:' + CORPUS + '&output=corpusName,fulltext&size=' + NB_TO_SAMPLE + '&rankBy=random&sid=istex-api-tools';
   console.log('start', istexApiRequest);
   request(istexApiRequest, function (err, response, body) {
     if (err) return console.error(err);
@@ -42,7 +44,7 @@ module.exports = function(options, cb) {
 
     //console.log(body)
     async.mapLimit(body.hits, 1 /* nb req */, function (hit, cb) {
-      console.log('Handle: ' + hit.id);
+      DEBUG && console.log('Handle: ' + hit.id);
       let teiUrl = '';
       hit.fulltext.forEach(function (item) {
         if (item.extension == 'tei') {
@@ -64,20 +66,20 @@ module.exports = function(options, cb) {
             return cb(new Error('Bad statusCode ' + response.statusCode + ' for TEI ' + teiUrl));
           }
 
-          console.log(teiUrl, hit.corpusName, response.statusCode);
+          DEBUG && console.log(teiUrl, hit.corpusName, response.statusCode);
           teiCounters.corpus[hit.corpusName] = teiCounters.corpus[hit.corpusName] || JSON.parse(JSON.stringify(teiCounterForOneCorpus));
           var cmdResponse = child_process.execSync('xmlwf -n', { input: teiBody });
           if (cmdResponse == '') {
-            console.log('no error');
+            DEBUG && console.log('no error');
             teiCounters.corpus[hit.corpusName].nbWfTei++;
           } else {
-            console.log('error ' + cmdResponse);
+            DEBUG && console.log('error ' + cmdResponse);
           }
           teiCounters.corpus[hit.corpusName].nbTeiAnalyzed++;
           teiCounters.corpus[hit.corpusName].percentWfTei =
             Math.round(teiCounters.corpus[hit.corpusName].nbWfTei / teiCounters.corpus[hit.corpusName].nbTeiAnalyzed * 100);
           teiCounters.nbTeiAnalyzed++;
-          console.log(teiCounters)
+          DEBUG && console.log(teiCounters)
           return cb(null);
         });
       } else {
@@ -90,7 +92,7 @@ module.exports = function(options, cb) {
         console.error(err);
         cb && cb(err);
       }
-      console.log('Traitements terminés.');
+      console.log('Traitements terminés pour ' + CORPUS + ' :', JSON.stringify(teiCounters));
       cb && cb();    
     });
 
